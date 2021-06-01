@@ -26,7 +26,12 @@ var (
 )
 
 func HelloServer(w http.ResponseWriter, r *http.Request) {
-	time.Sleep(2 * time.Second)
+    if r.URL.Path[1:] == "timeout" {
+	    time.Sleep(65 * time.Second)
+    }
+    if r.URL.Path[1:] == "slow" {
+        time.Sleep(2 * time.Second)
+    }
 	w.Header().Set("Cache-Control", "max-age:290304000, public")
     w.Header().Set("Last-Modified", cacheSince)
     w.Header().Set("Expires", cacheUntil)
