@@ -18,5 +18,5 @@ export let options = {
 };
 
 export default function () {
-  http.get('http://localhost:8003/John');
+  http.get('http://localhost:8001/John');
 }
