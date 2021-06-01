@@ -3,8 +3,16 @@ version: '3.4'
 services:
     stub:
         build:
-            context: ./application/
+            context: ./stub/
         ports:
             - 8003:8080
         environment:
             NEW_RELIC_LICENSE_KEY: $NEW_RELIC_LICENSE_KEY
+
+    varnish:
+        build:
+            context: ./varnish/
+        ports:
+            - "8001:80"
+        depends_on:
+            - stub
