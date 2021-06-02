@@ -33,7 +33,7 @@ services:
             VARNISH_PORT: 80
             VARNISHNCSA: "true"
 
-    couchbase:
+    couchbase.one:
         image: couchbase/server:community-5.1.1
         ports:
             - 8091:8091
