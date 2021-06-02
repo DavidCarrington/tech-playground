@@ -1,7 +1,10 @@
-.PHONY: up down restart
+.PHONY: up down provision restart
 
 up:
 	docker compose up -d app
+	$(MAKE) provision
+
+provision:
 	docker compose exec app bash -c ./setup-couchbase.sh
 
 down:
