@@ -1,3 +1,17 @@
+#!/bin/bash
+set -eux
+
+wait-for-url() {
+    echo "Testing $1"
+    timeout -s TERM 45 bash -c \
+    'while [[ "$(curl -s -o /dev/null -L -w ''%{http_code}'' ${0})" != "200" ]];\
+    do echo "Waiting for ${0}" && sleep 1;\
+    done' ${1}
+    echo "OK!"
+    curl -I $1
+}
+wait-for-url "http://couchbase.one:8091"
+
 # Set up server 1
 curl -v http://couchbase.one:8091/pools/default -d memoryQuota=256 -d indexMemoryQuota=256
 curl -v http://couchbase.one:8091/node/controller/setupServices -d services=kv
