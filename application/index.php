@@ -10,7 +10,7 @@ $authenticator = new PasswordAuthenticator();
 $authenticator->username($_ENV['COUCHBASE_ADMIN_USERNAME'])->password($_ENV['COUCHBASE_ADMIN_PASSWORD']);
 
 // Connect to Couchbase Server - using address of a KV (data) node
-$cluster = new CouchbaseCluster("couchbase://couchbase.one,couchbase.two,couchbase.three?detailed_errcodes=true");
+$cluster = new CouchbaseCluster("couchbase://couchbase.1,couchbase.2,couchbase.3?detailed_errcodes=true");
 
 // Authenticate, then open bucket
 $cluster->authenticate($authenticator);
