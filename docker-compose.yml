@@ -9,6 +9,14 @@ services:
         environment:
             NEW_RELIC_LICENSE_KEY: $NEW_RELIC_LICENSE_KEY
 
+    app:
+        build:
+            context: ./application
+        ports:
+            - 8002:80
+        volumes:
+            - ./application/:/var/www/html:cached
+
     varnish:
         image: mio101/varnish-ncsa
         volumes:
