@@ -17,6 +17,7 @@ services:
         depends_on:
             - couchbase.one
             - couchbase.two
+            - couchbase.three
         env_file:
             - .env
 
@@ -32,55 +33,17 @@ services:
             VARNISH_PORT: 80
             VARNISHNCSA: "true"
 
-    couchbase.one:
+    couchbase:
         image: couchbase/server:community-5.1.1
-        volumes:
-            - type: volume
-              source: couchbase1
-              target: /opt/couchbase1/var
         ports:
             - 8091:8091
-            - 8092:8092
-            - 8093:8093
-            - 8094:8094
-            - 11210:11210
-        ulimits:
-            nproc: 65535
-            core:
-                soft: 100000000
-                hard: 100000000
-            memlock:
-                soft: 100000000
-                hard: 100000000
-            nofile:
-                soft: 40960
-                hard: 40960
 
     couchbase.two:
         image: couchbase/server:community-5.1.1
-        volumes:
-            - type: volume
-              source: couchbase2
-              target: /opt/couchbase2/var
-        depends_on:
-            - couchbase.one
         ports:
-            - 18091:8091
-            - 18092:8092
-            - 18093:8093
-            - 18094:8094
-            - 21210:11210
-        ulimits:
-            nproc: 65535
-            core:
-                soft: 100000000
-                hard: 100000000
-            memlock:
-                soft: 100000000
-                hard: 100000000
-            nofile:
-                soft: 40960
-                hard: 40960
-volumes:
-    couchbase1:
-    couchbase2:
+            - 8092:8091
+
+    couchbase.three:
+        image: couchbase/server:community-5.1.1
+        ports:
+            - 8093:8091

@@ -10,15 +10,16 @@ $authenticator = new PasswordAuthenticator();
 $authenticator->username($_ENV['COUCHBASE_ADMIN_USERNAME'])->password($_ENV['COUCHBASE_ADMIN_PASSWORD']);
 
 // Connect to Couchbase Server - using address of a KV (data) node
-$cluster = new CouchbaseCluster("couchbase://couchbase.one");
+$cluster = new CouchbaseCluster("couchbase://couchbase.one,couchbase.two,couchbase.three");
 
 // Authenticate, then open bucket
 $cluster->authenticate($authenticator);
 $bucket = $cluster->openBucket($bucketName);
 
 // Store a document
+$key = substr(md5(microtime(true)), 0, 2);
 echo "Storing u:king_arthur\n";
-$result = $bucket->upsert('u:king_arthur', array(
+$result = $bucket->upsert($key, array(
     "email" => "kingarthur@couchbase.com",
     "interests" => array("African Swallows")
 ));
@@ -27,14 +28,14 @@ print_r($result);
 
 // Retrieve a document
 echo "Getting back u:king_arthur\n";
-$result = $bucket->get("u:king_arthur");
+$result = $bucket->get($key);
 print_r($result->value);
 
 // Replace a document
 echo "Replacing u:king_arthur\n";
 $doc = $result->value;
 array_push($doc->interests, 'PHP 7');
-$bucket->replace("u:king_arthur", $doc);
+$bucket->replace($key, $doc);
 print_r($result);
 
 /*
