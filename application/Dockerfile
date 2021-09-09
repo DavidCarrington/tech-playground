@@ -1,5 +1,6 @@
 FROM php:7.0-apache
  
+ # PHP Couchbase extension
 RUN apt-get update
 RUN apt-get install -y wget lsb-release
 RUN curl -O http://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-6-amd64.deb && \
@@ -8,3 +9,8 @@ RUN curl -O http://packages.couchbase.com/releases/couchbase-release/couchbase-r
 RUN apt-get update && apt-get install -y libcouchbase-dev build-essential zlib1g-dev
 RUN pecl install couchbase-2.6.2
 RUN docker-php-ext-enable couchbase
+
+# PHP Redis extension
+RUN pecl install -o -f redis && \
+    rm -rf /tmp/pear && \
+    docker-php-ext-enable redis
