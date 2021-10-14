@@ -1,13 +1,13 @@
 version: '3.4'
 
 services:
-    stub:
+    stub: # Go (just for fun)
         build:
             context: ./stub/
         ports:
             - 8003:8080
 
-    app:
+    app: # PHP
         build:
             context: ./application
         ports:
@@ -23,6 +23,9 @@ services:
             - .env
 
     varnish:
+        # https://www.datadoghq.com/blog/top-varnish-performance-metrics/
+
+        # https://github.com/MioYvo/docker-varnish because it has various log output options available
         image: mio101/varnish-ncsa
         volumes:
             - ./varnish/default.vcl:/etc/varnish/default.vcl
@@ -33,6 +36,13 @@ services:
         environment:
             VARNISH_PORT: 80
             VARNISHNCSA: "true"
+            # https://varnish-cache.org/docs/trunk/reference/varnishncsa.html#format
+            VARNISHNCSA_FORMAT: "'%{Host}i %h %l %u %t \"%r\" %s %b %D \"%{Referer}i\" \"%{Varnish:hitmiss}x\"'"
+
+            # https://varnish-cache.org/docs/trunk/users-guide/storage-backends.html#malloc
+            # https://stackoverflow.com/questions/8016643/what-happens-when-varnish-cache-is-full
+            # https://info.varnish-software.com/blog/understanding-varnish-cache-memory-usage
+            VARNISH_RAM_STORAGE: "50M"
     
     redis.1:
         image: redis:alpine
