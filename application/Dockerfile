@@ -1,4 +1,4 @@
-FROM php:7.0-apache
+FROM chialab/php:7.0-apache
  
  # PHP Couchbase extension
 RUN apt-get update

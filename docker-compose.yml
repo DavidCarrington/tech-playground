@@ -18,6 +18,9 @@ services:
             - couchbase.1
             - couchbase.2
             - couchbase.3
+            - memcached.1
+            - memcached.2
+            - memcached.3
             - redis.1
         env_file:
             - .env
@@ -43,7 +46,14 @@ services:
             # https://stackoverflow.com/questions/8016643/what-happens-when-varnish-cache-is-full
             # https://info.varnish-software.com/blog/understanding-varnish-cache-memory-usage
             VARNISH_RAM_STORAGE: "50M"
-    
+
+    memcached.1:
+        image: memcached:alpine
+    memcached.2:
+        image: memcached:alpine
+    memcached.3:
+        image: memcached:alpine
+
     redis.1:
         image: redis:alpine
 
